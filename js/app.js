@@ -20,7 +20,6 @@
 
 const sections = Array.from(document.querySelectorAll('section'));
 const menu = document.getElementById('navbar__list');
-const numberOfListItems = sections.length;
 
 
 /**
@@ -29,26 +28,14 @@ const numberOfListItems = sections.length;
  * 
 */
 
-const createListItem = () => {
-    for (section of sections){
-        let sectionName = section.getAttribute('data-nav');
-        let sectionLink = section.getAttribute('id');
-        let listItem = document.createElement('li');
-
-        listItem.innerHTML = `<a class="menu__link" href="#${sectionLink}">${sectionName}</a>`;
-
-        menu.appendChild(listItem);
-    }
+const sectionIsInPostition = (elem) => {
+    let sectionPos = elem.getBoundingClientRect();
+    return (sectionPos >= 0);
 }
 
-const sectionInViewPort = (elem) => {
-    let sectionPosition = elem.getBoundingClientRect();
-    return (sectionPosition >= 0);
-}
-
-const toggleActive = () => {
+const makeActive = () => {
     for (section of sections){
-        if (sectionInViewPort(section)){
+        if (sectionIsInPostition(section)){
             if (!section.classList.contains('your-active-class')){
                 section.classList.add('your-active-class')
             }
@@ -64,9 +51,21 @@ const toggleActive = () => {
  * 
 */
 
-// build the nav
+const buildListItem = () => {
+    for (section of sections){
+        let sectionName = section.getAttribute('data-nav');
+        let sectionLink = section.getAttribute('id');
+        let listItem = document.createElement('li');
 
-createListItem();
+        listItem.innerHTML = `<a class="menu__link" href="#${sectionLink}">${sectionName}</a>`;
+
+        menu.appendChild(listItem);
+    }
+}
+
 
 // Add class 'active' to section when near top of viewport
-document.addEventListener('scroll', toggleActive);
+document.addEventListener('scroll', makeActive);
+
+
+buildListItem();
