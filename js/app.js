@@ -28,17 +28,16 @@ const menu = document.getElementById('navbar__list');
  * 
 */
 
-const sectionIsInPostition = (elem) => {
-    let sectionPos = elem.getBoundingClientRect();
-    return (sectionPos >= 0);
-}
+const toggleActive = () => {
+    let sectionInPositionId = location.hash.slice(1);
+    let sectionInPosition = document.getElementById(sectionInPositionId);
 
-const makeActive = () => {
     for (section of sections){
-        if (sectionIsInPostition(section)){
-            if (!section.classList.contains('your-active-class')){
-                section.classList.add('your-active-class')
+        if (section.id === sectionInPositionId){
+            if (!sectionInPosition.classList.contains('your-active-class')){
+                sectionInPosition.classList.add('your-active-class')
             }
+
         } else{
             section.classList.remove('your-active-class')
         }
@@ -65,7 +64,7 @@ const buildListItem = () => {
 
 
 // Add class 'active' to section when near top of viewport
-document.addEventListener('scroll', makeActive);
+document.addEventListener('scroll', toggleActive);
 
 
 buildListItem();
